@@ -268,3 +268,153 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 80px 0;
+  background-image: url('/images/hero-background.svg');
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  margin: 40px 0;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--light-text);
+  margin-bottom: 2rem;
+}
+
+/* Categories Section */
+.categories-section {
+  padding: 40px 0;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.category-card {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+}
+
+.category-card img {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.category-card h3 {
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.category-card p {
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+/* CTA Buttons */
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.cta-buttons .btn {
+  font-size: 1.1rem;
+  padding: 12px 24px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.cta-buttons .btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 6px rgba(74, 144, 226, 0.2);
+}
+
+.cta-buttons .btn-primary:hover {
+  background-color: #3a80d2;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(74, 144, 226, 0.3);
+}
+
+.cta-buttons .btn-outline {
+  border: 2px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.cta-buttons .btn-outline:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 20px;
+    margin: 20px 0;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .categories-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 20px;
+  }
+
+  .category-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .categories-section {
+    padding: 20px 0;
+  }
+}

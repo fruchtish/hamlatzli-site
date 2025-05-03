@@ -39,11 +39,34 @@
         </div>
       </section>
       
-      <section>
-        <h2>המלצות אחרונות</h2>
-        <div id="recommendations" class="recommendations">
-          <!-- Recommendations will be loaded here by JavaScript -->
-          <p>טוען המלצות...</p>
+      <section class="recommendations-section">
+        <div class="section-header">
+          <h2>המלצות אחרונות</h2>
+          <div class="section-actions">
+            <select id="category-filter" class="form-control">
+              <option value="">כל הקטגוריות</option>
+              <option value="מסעדות">מסעדות</option>
+              <option value="סרטים">סרטים</option>
+              <option value="ספרים">ספרים</option>
+              <option value="מוצרים">מוצרים</option>
+              <option value="אטרקציות">אטרקציות</option>
+            </select>
+            <select id="sort-options" class="form-control">
+              <option value="recent">הכי חדש</option>
+              <option value="rating">דירוג גבוה</option>
+              <option value="likes">הכי אהוב</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="recommendations-container">
+          <div id="recommendations" class="recommendations">
+            <!-- Recommendations will be loaded here by JavaScript -->
+            <div class="loading-state">
+              <div class="loading-spinner"></div>
+              <p>טוען המלצות...</p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -56,5 +79,6 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/recommendations.js"></script>
 </body>
 </html>

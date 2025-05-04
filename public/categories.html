@@ -1,68 +1,462 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>קטגוריות - המלצלי</title>
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/improved-style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    .category-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 12px;
+      overflow: hidden;
+      height: 100%;
+    }
+    .category-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .category-image {
+      height: 150px;
+      overflow: hidden;
+      position: relative;
+    }
+    .category-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .category-card:hover .category-image img {
+      transform: scale(1.05);
+    }
+    .category-icon {
+      width: 60px;
+      height: 60px;
+      background-color: #4a90e2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      margin: 0 auto;
+      margin-top: -30px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .category-popular {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #eee;
+    }
+    .popular-item {
+      padding: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+    .section-title {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: 0;
+      width: 50px;
+      height: 3px;
+      background-color: #4a90e2;
+      border-radius: 3px;
+    }
+    .search-bar {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+    .search-bar input {
+      width: 100%;
+      padding: 12px 20px 12px 50px;
+      border-radius: 30px;
+      border: 1px solid #e0e0e0;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .search-bar input:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      outline: none;
+    }
+    .search-icon {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #666;
+    }
+    .featured-recommendations {
+      background-color: #eef5ff;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    .featured-slide {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+      scrollbar-width: thin;
+    }
+    .featured-slide::-webkit-scrollbar {
+      height: 4px;
+    }
+    .featured-slide::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 2px;
+    }
+    .featured-slide::-webkit-scrollbar-thumb {
+      background: #4a90e2;
+      border-radius: 2px;
+    }
+    .featured-item {
+      min-width: 200px;
+      max-width: 250px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    }
+    .featured-image {
+      height: 120px;
+      overflow: hidden;
+    }
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .featured-content {
+      padding: 1rem;
+    }
+    .featured-title {
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    .ratings {
+      color: #ffc107;
+      font-size: 0.8rem;
+    }
+    .browse-all {
+      display: inline-flex;
+      align-items: center;
+      color: #4a90e2;
+      font-weight: 500;
+      text-decoration: none;
+      margin-top: 0.5rem;
+      transition: color 0.2s ease;
+    }
+    .browse-all:hover {
+      color: #3470b9;
+    }
+    .browse-all i {
+      margin-right: 6px;
+      font-size: 0.8rem;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="container header-container">
-      <div class="logo">המלצלי</div>
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="/">ראשי</a></li>
-          <li><a href="/categories.html">קטגוריות</a></li>
-          <li class="logged-out"><a href="/login.html">התחברות</a></li>
-          <li class="logged-out"><a href="/register.html">הרשמה</a></li>
-          <li class="logged-in" style="display: none;"><a href="/add-recommendation.html">הוסף המלצה</a></li>
-          <li class="logged-in admin-only" style="display: none;"><a href="/admin">ניהול</a></li>
-          <li class="logged-in" style="display: none;"><a href="#" id="logout-btn">התנתקות</a></li>
-        </ul>
-      </nav>
+    <div class="container mx-auto px-4 py-4">
+      <div class="flex justify-between items-center">
+        <div class="text-2xl font-bold text-blue-600">המלצלי</div>
+        <nav>
+          <ul class="flex space-x-6 space-x-reverse">
+            <li><a href="/" class="hover:text-blue-600">ראשי</a></li>
+            <li><a href="/categories.html" class="font-medium text-blue-600">קטגוריות</a></li>
+            <li class="logged-out"><a href="/login.html" class="hover:text-blue-600">התחברות</a></li>
+            <li class="logged-out"><a href="/register.html" class="hover:text-blue-600">הרשמה</a></li>
+            <li class="logged-in" style="display: none;"><a href="/add-recommendation.html" class="hover:text-blue-600">הוסף המלצה</a></li>
+            <li class="logged-in admin-only" style="display: none;"><a href="/admin" class="hover:text-blue-600">ניהול</a></li>
+            <li class="logged-in" style="display: none;"><a href="#" id="logout-btn" class="hover:text-blue-600">התנתקות</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <main>
-    <div class="container">
+  <main class="py-6">
+    <div class="container mx-auto px-4">
       <div id="alert-container"></div>
       
-      <section class="categories-section">
-        <h1>קטגוריות</h1>
-        <div class="categories-grid">
-          <div class="category-card">
-            <img src="/images/restaurant-icon.svg" alt="מסעדות">
-            <h3>מסעדות</h3>
-            <p>המלצות על מסעדות, בתי קפה ומקומות אוכל</p>
+      <section class="featured-recommendations">
+        <h2 class="text-2xl font-bold mb-4">המלצות מובילות</h2>
+        <div class="featured-slide">
+          <div class="featured-item">
+            <div class="featured-image">
+              <img src="https://www.touristisrael.com/wp-content/uploads/2019/12/arabic-feast-1024x683.jpg" alt="מסעדת שף מובילה">
+            </div>
+            <div class="featured-content">
+              <h3 class="featured-title">מסעדת הנמל</h3>
+              <div class="ratings">★★★★★</div>
+              <p class="text-sm text-gray-600">אוכל ים תיכוני מעולה</p>
+              <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לפרטים</a>
+            </div>
           </div>
-          <div class="category-card">
-            <img src="/images/movie-icon.svg" alt="סרטים">
-            <h3>סרטים</h3>
-            <p>המלצות על סרטים, סדרות וקולנוע</p>
+          <div class="featured-item">
+            <div class="featured-image">
+              <img src="https://goisrael.ph/wp-content/uploads/2018/10/israeli-food.jpg" alt="מסעדה מומלצת">
+            </div>
+            <div class="featured-content">
+              <h3 class="featured-title">מאכלים מסורתיים</h3>
+              <div class="ratings">★★★★☆</div>
+              <p class="text-sm text-gray-600">חוויה קולינרית אותנטית</p>
+              <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לפרטים</a>
+            </div>
           </div>
-          <div class="category-card">
-            <img src="/images/book-icon.svg" alt="ספרים">
-            <h3>ספרים</h3>
-            <p>המלצות על ספרים וספרות</p>
+          <div class="featured-item">
+            <div class="featured-image">
+              <img src="https://www.immanuel-tours.com/wp-content/uploads/2020/03/food.jpg" alt="מאכלים ישראלים">
+            </div>
+            <div class="featured-content">
+              <h3 class="featured-title">סיור קולינרי</h3>
+              <div class="ratings">★★★★★</div>
+              <p class="text-sm text-gray-600">טעימות בשוק המקומי</p>
+              <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לפרטים</a>
+            </div>
           </div>
-          <div class="category-card">
-            <img src="/images/product-icon.svg" alt="מוצרים">
-            <h3>מוצרים</h3>
-            <p>המלצות על מוצרים ומותגים</p>
+          <div class="featured-item">
+            <div class="featured-image">
+              <img src="https://www.onthegotours.com/repository/Jerusalem-Old-City--Israel-Tours--On-The-Go-Tours-284401454409973.jpg" alt="אטרקציות בירושלים">
+            </div>
+            <div class="featured-content">
+              <h3 class="featured-title">סיור בעיר העתיקה</h3>
+              <div class="ratings">★★★★★</div>
+              <p class="text-sm text-gray-600">חוויה היסטורית</p>
+              <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לפרטים</a>
+            </div>
           </div>
+        </div>
+      </section>
+      
+      <section class="mb-10">
+        <h1 class="text-3xl font-bold section-title">קטגוריות</h1>
+        
+        <div class="search-bar">
+          <i class="fas fa-search search-icon"></i>
+          <input type="text" placeholder="חפש קטגוריה או המלצה..." class="search-input">
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- מסעדות -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://www.touristisrael.com/wp-content/uploads/2019/12/arabic-feast-1024x683.jpg" alt="מסעדות">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">מסעדות ובתי קפה</h3>
+              <p class="text-gray-600 mb-3">המלצות על מסעדות, בתי קפה ומקומות אוכל איכותיים</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>מסעדת החוף - תל אביב</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>הטאבון - ירושלים</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>קפה לואי - חיפה</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- סרטים -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://jesswandering.com/wp-content/uploads/2019/11/Israel-5.jpg" alt="סרטים">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-film"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">סרטים וסדרות</h3>
+              <p class="text-gray-600 mb-3">המלצות על סרטים, סדרות וקולנוע ישראלי ובינלאומי</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>פרויקט X</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>נופלת על העיר</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>תהילה</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- ספרים -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://www.onthegotours.com/repository/Bahai-Gardens-in-Haifa--Israel-Tours--On-The-Go-Tours-283781454084078.jpg" alt="ספרים">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-book"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">ספרים וקריאה</h3>
+              <p class="text-gray-600 mb-3">המלצות על ספרים, מגזינים וחומרי קריאה מעניינים</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>אישה בורחת מבשורה</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>הר האושר</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>המורה דרך</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- מוצרים -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://www.israel21c.org/wp-content/uploads/2012/04/22-Motorola-Mobile-Phone.jpg" alt="מוצרים">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">מוצרים ושופינג</h3>
+              <p class="text-gray-600 mb-3">המלצות על מוצרים, גאדג'טים ומציאות שוות</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>אוזניות JBL</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>מצלמת גופרו 12</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>מחשב נייד Dell XPS</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- אטרקציות -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://www.onthegotours.com/repository/Israel-Explorer-main-image-Jaffa--Israel-736761554214750.jpg" alt="אטרקציות">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">אטרקציות ובילויים</h3>
+              <p class="text-gray-600 mb-3">המלצות על מקומות בילוי, אטרקציות ומסלולי טיול</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>שייט קייאקים בירדן</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>סיור בעיר העתיקה בירושלים</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>חוות התבלינים בגלבוע</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- טכנולוגיה -->
+          <div class="category-card bg-white shadow-md">
+            <div class="category-image">
+              <img src="https://static.israel21c.org/www/uploads/2024/10/invu-1520x855.png" alt="טכנולוגיה">
+            </div>
+            <div class="category-icon">
+              <i class="fas fa-laptop"></i>
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold mb-2">טכנולוגיה וחדשנות</h3>
+              <p class="text-gray-600 mb-3">המלצות על מוצרי טכנולוגיה, אפליקציות וחידושים</p>
+              <div class="category-popular">
+                <p class="font-medium mb-2">המלצות פופולריות:</p>
+                <ul class="text-gray-600">
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>אפליקציית ניהול תקציב</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>אוזניות מבטלות רעשים</li>
+                  <li class="popular-item"><i class="fas fa-star text-yellow-400 ml-1"></i>מצלמת אבטחה חכמה</li>
+                </ul>
+                <a href="#" class="browse-all"><i class="fas fa-arrow-left"></i> לכל ההמלצות בקטגוריה</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="text-center my-12 py-8">
+        <h2 class="text-2xl font-bold mb-3">רוצה לשתף את ההמלצות שלך?</h2>
+        <p class="text-gray-600 mb-4">הצטרפו לקהילת המלצלי וגלו את חווית השיתוף המושלמת</p>
+        <div class="flex justify-center gap-4">
+          <a href="/register.html" class="bg-blue-600 text-white px-6 py-3 rounded-full font-medium hover:bg-blue-700 transition duration-300">הצטרף עכשיו</a>
+          <a href="/add-recommendation.html" class="border border-blue-600 text-blue-600 px-6 py-3 rounded-full font-medium hover:bg-blue-50 transition duration-300">הוסף המלצה</a>
         </div>
       </section>
     </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>כל הזכויות שמורות &copy; המלצלי 2025</p>
+  <footer class="bg-gray-100 pt-10 pb-6">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-lg font-bold mb-4">המלצלי</h3>
+          <p class="text-gray-600">המקום המושלם לשיתוף וקבלת המלצות אמינות ממשתמשים אחרים</p>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">קישורים מהירים</h3>
+          <ul class="text-gray-600">
+            <li class="mb-2"><a href="/" class="hover:text-blue-600">דף הבית</a></li>
+            <li class="mb-2"><a href="/categories.html" class="hover:text-blue-600">קטגוריות</a></li>
+            <li class="mb-2"><a href="/register.html" class="hover:text-blue-600">הרשמה</a></li>
+            <li class="mb-2"><a href="/login.html" class="hover:text-blue-600">התחברות</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-lg font-bold mb-4">עקבו אחרינו</h3>
+          <div class="flex space-x-4 space-x-reverse">
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-600 hover:text-blue-600"><i class="fab fa-twitter"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center pt-8 mt-8 border-t border-gray-200">
+        <p class="text-gray-600">כל הזכויות שמורות &copy; המלצלי 2024</p>
+      </div>
     </div>
   </footer>
 
   <script src="/js/main.js"></script>
+  <script>
+    // Search functionality
+    document.querySelector('.search-input').addEventListener('input', function(e) {
+      const searchValue = this.value.trim().toLowerCase();
+      const categories = document.querySelectorAll('.category-card');
+      
+      categories.forEach(category => {
+        const title = category.querySelector('h3').textContent.toLowerCase();
+        const description = category.querySelector('p').textContent.toLowerCase();
+        const items = Array.from(category.querySelectorAll('.popular-item')).map(item => item.textContent.toLowerCase());
+        
+        if (title.includes(searchValue) || description.includes(searchValue) || items.some(item => item.includes(searchValue))) {
+          category.style.display = 'block';
+        } else {
+          category.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>

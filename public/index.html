@@ -1,11 +1,103 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>המלצלי - פלטפורמת המלצות</title>
   <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* תיקוני עיצוב מינימליים במקרה שקובץ ה-CSS המקורי לא נטען */
+    body {
+      font-family: 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      direction: rtl;
+      text-align: right;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f7f8fa;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4a90e2;
+    }
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-menu li {
+      margin-left: 20px;
+    }
+    .nav-menu a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .hero {
+      text-align: center;
+      padding: 60px 0;
+      margin: 20px 0;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+    }
+    .btn-outline {
+      border: 1px solid #4a90e2;
+      color: #4a90e2;
+      background: transparent;
+    }
+    footer {
+      background-color: white;
+      padding: 20px 0;
+      border-top: 1px solid #ddd;
+      margin-top: 60px;
+      text-align: center;
+    }
+    section {
+      margin: 40px 0;
+    }
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -15,11 +107,8 @@
         <ul class="nav-menu">
           <li><a href="/">ראשי</a></li>
           <li><a href="/categories.html">קטגוריות</a></li>
-          <li class="logged-out"><a href="/login.html">התחברות</a></li>
-          <li class="logged-out"><a href="/register.html">הרשמה</a></li>
-          <li class="logged-in" style="display: none;"><a href="/add-recommendation.html">הוסף המלצה</a></li>
-          <li class="logged-in admin-only" style="display: none;"><a href="/admin">ניהול</a></li>
-          <li class="logged-in" style="display: none;"><a href="#" id="logout-btn">התנתקות</a></li>
+          <li><a href="/login.html">התחברות</a></li>
+          <li><a href="/register.html">הרשמה</a></li>
         </ul>
       </nav>
     </div>
@@ -27,14 +116,11 @@
 
   <main>
     <div class="container">
-      <div id="alert-container"></div>
-      
       <section class="hero">
         <h1>ברוכים הבאים להמלצ-לי</h1>
         <p>המקום המושלם לשיתוף וקבלת המלצות אמינות - מסעדות, סרטים, ספרים, מוצרים ועוד!</p>
         <div class="cta-buttons">
-          <a href="/add-recommendation.html" class="btn btn-primary logged-in" style="display: none;">שתף את ההמלצה שלך</a>
-          <a href="/register.html" class="btn btn-primary logged-out">הצטרפו אלינו</a>
+          <a href="/register.html" class="btn btn-primary">הצטרפו אלינו</a>
           <a href="/categories.html" class="btn btn-outline">גלו קטגוריות</a>
         </div>
       </section>
@@ -42,7 +128,6 @@
       <section>
         <h2>המלצות אחרונות</h2>
         <div id="recommendations" class="recommendations">
-          <!-- Recommendations will be loaded here by JavaScript -->
           <p>טוען המלצות... אנא המתן</p>
         </div>
       </section>
@@ -55,6 +140,34 @@
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
+  <script>
+    // סקריפט בסיסי לטעינת המלצות
+    document.addEventListener('DOMContentLoaded', function() {
+      // כאן בדרך כלל היה קוד לטעינת המלצות מהשרת
+      // לצורך הבדיקה, נציג תוכן סטטי
+      setTimeout(function() {
+        const recommendationsContainer = document.getElementById('recommendations');
+        recommendationsContainer.innerHTML = `
+          <div class="recommendation-list">
+            <div class="card">
+              <h3>מסעדת השף</h3>
+              <p>אחת המסעדות המומלצות ביותר בתל אביב. אוכל מעולה ושירות מצוין!</p>
+              <div class="rating">★★★★★</div>
+            </div>
+            <div class="card">
+              <h3>סרט "החיים הם יפים"</h3>
+              <p>סרט מרגש שחובה לראות לפחות פעם אחת בחיים.</p>
+              <div class="rating">★★★★☆</div>
+            </div>
+            <div class="card">
+              <h3>ספר "שקרים קטנים"</h3>
+              <p>ספר מתח מרתק שלא תוכלו להניח מהיד.</p>
+              <div class="rating">★★★★☆</div>
+            </div>
+          </div>
+        `;
+      }, 1000);
+    });
+  </script>
 </body>
 </html>

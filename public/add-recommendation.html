@@ -55,11 +55,39 @@
                 <option value="1">1 כוכב - לא מומלץ</option>
               </select>
             </div>
+            <div class="form-group location-group" style="display: none;">
+              <label for="recommendation-location">מיקום/כתובת</label>
+              <input type="text" id="recommendation-location" class="form-control" placeholder="הזן כתובת מדויקת">
+            </div>
+            
+            <div class="form-group">
+              <label for="recommendation-price">טווח מחירים</label>
+              <select id="recommendation-price" class="form-control">
+                <option value="">בחר טווח מחירים</option>
+                <option value="₪">₪ - עד 50 ש״ח</option>
+                <option value="₪₪">₪₪ - 50-100 ש״ח</option>
+                <option value="₪₪₪">₪₪₪ - 100-200 ש״ח</option>
+                <option value="₪₪₪₪">₪₪₪₪ - 200+ ש״ח</option>
+              </select>
+            </div>
+
             <div class="form-group">
               <label for="recommendation-description">תיאור</label>
-              <textarea id="recommendation-description" class="form-control" rows="5" required></textarea>
+              <textarea id="recommendation-description" class="form-control" rows="5" required placeholder="ספר על החוויה שלך..."></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">הוסף המלצה</button>
+
+            <div class="form-group">
+              <label for="recommendation-image">תמונה</label>
+              <div class="image-upload-container">
+                <input type="file" id="recommendation-image" class="form-control" accept="image/*">
+                <div class="image-preview" id="image-preview"></div>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">הוסף המלצה</button>
+              <button type="reset" class="btn btn-outline">נקה טופס</button>
+            </div>
           </form>
         </div>
       </div>
@@ -73,5 +101,59 @@
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/add-recommendation.js"></script>
+  
+  <template id="drag-drop-template">
+    <div class="drag-drop-text">
+      גרור ושחרר תמונה כאן<br>
+      <span>או</span><br>
+      לחץ לבחירת קובץ
+    </div>
+  </template>
+
+  <script>
+    // Add drag and drop functionality
+    const dropZone = document.querySelector('.image-upload-container');
+    const template = document.getElementById('drag-drop-template');
+    
+    dropZone.innerHTML = template.innerHTML;
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+      dropZone.classList.add('drag-highlight');
+    }
+
+    function unhighlight(e) {
+      dropZone.classList.remove('drag-highlight');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      const fileInput = document.getElementById('recommendation-image');
+      
+      fileInput.files = files;
+      // Trigger change event to update preview
+      fileInput.dispatchEvent(new Event('change'));
+    }
+  </script>
 </body>
 </html>

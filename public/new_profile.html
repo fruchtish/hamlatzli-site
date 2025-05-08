@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>פרופיל משתמש | המלצלי</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96.1%;
+            --secondary-foreground: 222.2 47.4% 11.2%;
+            --muted: 210 40% 96.1%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96.1%;
+            --accent-foreground: 222.2 47.4% 11.2%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 221.2 83.2% 53.3%;
+            --radius: 0.5rem;
+        }
+        
+        * {
+            font-family: 'Rubik', sans-serif;
+        }
+        
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+        
+        .shadcn-card {
+            border-radius: var(--radius);
+            background-color: hsl(var(--card));
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            overflow: hidden;
+        }
+        
+        .shadcn-btn {
+            border-radius: var(--radius);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .shadcn-btn-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .shadcn-btn-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+        
+        .shadcn-btn-outline {
+            background-color: transparent;
+            color: hsl(var(--primary));
+            border: 1px solid hsl(var(--border));
+        }
+        
+        .shadcn-badge {
+            border-radius: 9999px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .shadcn-badge-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+        
+        .shadcn-avatar {
+            border-radius: 9999px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: hsl(var(--muted));
+            color: hsl(var(--muted-foreground));
+        }
+        
+        .shadcn-tabs {
+            display: flex;
+            border-bottom: 1px solid hsl(var(--border));
+            margin-bottom: 1rem;
+        }
+        
+        .shadcn-tab {
+            padding: 0.75rem 1rem;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .shadcn-tab[aria-selected="true"] {
+            border-bottom-color: hsl(var(--primary));
+            color: hsl(var(--primary));
+        }
+        
+        .shadcn-input {
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--input));
+            padding: 0.5rem;
+            width: 100%;
+        }
+        
+        .shadcn-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .ratings {
+            color: #f59e0b;
+            letter-spacing: 2px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 9999px;
+            background-color: hsl(var(--secondary));
+            overflow: hidden;
+        }
+        
+        .progress-value {
+            height: 100%;
+            background-color: hsl(var(--primary));
+        }
+        
+        .recommendation-card {
+            transition: transform 0.2s ease;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="text-2xl font-bold text-blue-600">המלצלי</div>
+            <nav>
+                <ul class="flex items-center space-x-4 space-x-reverse">
+                    <li><a href="/" class="text-gray-700 hover:text-blue-600 transition">ראשי</a></li>
+                    <li><a href="/categories.html" class="text-gray-700 hover:text-blue-600 transition">קטגוריות</a></li>
+                    <li class="relative group">
+                        <button class="flex items-center text-gray-700 hover:text-blue-600 transition">
+                            <span class="ml-2">ישראל ישראלי</span>
+                            <div class="shadcn-avatar w-8 h-8 bg-blue-600 text-white">י</div>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex items-center mb-8">
+            <div class="shadcn-avatar w-24 h-24 bg-blue-600 text-white text-3xl">
+                י
+            </div>
+            <div class="mr-6">
+                <h1 class="text-3xl font-bold">ישראל ישראלי</h1>
+                <p class="text-gray-500">@israelisraeli</p>
+                <div class="mt-2 flex flex-wrap items-center gap-2">
+                    <span class="shadcn-badge shadcn-badge-secondary">54 המלצות</span>
+                    <span class="shadcn-badge shadcn-badge-secondary">127 עוקבים</span>
+                </div>
+            </div>
+            <div class="mr-auto">
+                <button class="shadcn-btn shadcn-btn-outline py-2 px-4">
+                    <i class='bx bx-edit-alt ml-2'></i>
+                    ערוך פרופיל
+                </button>
+            </div>
+        </div>
+        
+        <div class="mb-6">
+            <p>מומחה קולינרי וחובב טיולים. אוהב לשתף מקומות נהדרים בארץ ובעולם. מחפש תמיד את החוויות הכי טובות לשתף איתכם.</p>
+        </div>
+        
+        <div class="shadcn-tabs mb-6">
+            <button class="shadcn-tab" aria-selected="true">ההמלצות שלי</button>
+            <button class="shadcn-tab" aria-selected="false">אוספים</button>
+            <button class="shadcn-tab" aria-selected="false">סטטיסטיקות</button>
+        </div>
+        
+        <section>
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-semibold">ההמלצות שלי</h2>
+                <div class="flex gap-3">
+                    <select class="shadcn-input max-w-xs">
+                        <option>כל הקטגוריות</option>
+                        <option>מסעדות</option>
+                        <option>אטרקציות</option>
+                        <option>מוצרים</option>
+                    </select>
+                    <button class="shadcn-btn shadcn-btn-primary py-2 px-6">
+                        <i class='bx bx-plus ml-2'></i>
+                        המלצה חדשה
+                    </button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- המלצה 1 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://www.touristisrael.com/wp-content/uploads/2019/12/arabic-feast-1024x683.jpg" alt="מסעדת אבו חסן" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">מסעדת אבו חסן</h3>
+                            <span class="text-sm text-gray-500">מסעדות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★★</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">החומוס הטוב ביותר ביפו! חובה לכל מי שמחפש אוכל אותנטי ואווירה נעימה.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- המלצה 2 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://goisrael.ph/wp-content/uploads/2018/10/israeli-food.jpg" alt="קפה נורדוי" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">קפה נורדוי</h3>
+                            <span class="text-sm text-gray-500">מסעדות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★☆</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">אחד מבתי הקפה הכי טובים בתל אביב. ארוחות בוקר מעולות ואווירה נעימה.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪₪₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- המלצה 3 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://ik.imagekit.io/munchery/blog/tr:w-768/the-15-dishes-that-define-israeli-cuisine.jpeg" alt="גוצה טברנה יוונית" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">גוצה טברנה יוונית</h3>
+                            <span class="text-sm text-gray-500">מסעדות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★★</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">אוכל יווני אותנטי בלב תל אביב. המוסקה והסופלקי פשוט מעולים.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪₪₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- המלצה 4 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://www.abraham.travel/wp-content/uploads/2022/11/Untitled-design-31.jpg" alt="מחניודה" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">מחניודה</h3>
+                            <span class="text-sm text-gray-500">מסעדות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★★</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">חוויה קולינרית יוצאת דופן בירושלים. השף אסף גרניט מגיש אוכל ישראלי-ים תיכוני ברמה הגבוהה ביותר.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪₪₪₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- המלצה 5 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://www.onthegotours.com/repository/Jerusalem-Old-City--Israel-Tours--On-The-Go-Tours-284401454409973.jpg" alt="סיור בעיר העתיקה" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">סיור בעיר העתיקה</h3>
+                            <span class="text-sm text-gray-500">אטרקציות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★★</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">חוויה היסטורית מרתקת בעיר העתיקה של ירושלים. מומלץ לקחת מדריך שיספר על ההיסטוריה העשירה.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- המלצה 6 -->
+                <div class="shadcn-card recommendation-card">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://www.onthegotours.com/repository/Bahai-Gardens-in-Haifa--Israel-Tours--On-The-Go-Tours-283781454084078.jpg" alt="גני הבהאים" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-bold text-lg">גני הבהאים</h3>
+                            <span class="text-sm text-gray-500">אטרקציות</span>
+                        </div>
+                        <div class="mb-2 ratings">★★★★★</div>
+                        <p class="text-gray-700 mb-3 line-clamp-2">אחד המקומות היפים ביותר בארץ. הגנים מטופחים להפליא והנוף מרהיב.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">₪</span>
+                            <div class="flex gap-2">
+                                <button class="text-gray-500 hover:text-blue-600"><i class='bx bx-edit'></i></button>
+                                <button class="text-gray-500 hover:text-red-600"><i class='bx bx-trash'></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-center">
+                <button class="shadcn-btn shadcn-btn-outline py-2 px-6">טען עוד</button>
+            </div>
+        </section>
+        
+        <div class="hidden">
+            <section>
+                <h2 class="text-2xl font-semibold mb-6">אוספי המלצות</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="shadcn-card">
+                        <div class="h-40 bg-blue-600 text-white p-4 flex items-end">
+                            <h3 class="text-2xl font-bold">המסעדות האהובות עליי</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="mb-2">אוסף המסעדות הטובות ביותר שביקרתי בהן</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">12 המלצות</span>
+                                <button class="shadcn-btn shadcn-btn-outline py-1 px-3 text-sm">צפה</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shadcn-card">
+                        <div class="h-40 bg-green-600 text-white p-4 flex items-end">
+                            <h3 class="text-2xl font-bold">טיולים בצפון</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="mb-2">מסלולי טיולים ואטרקציות מומלצים בצפון הארץ</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">8 המלצות</span>
+                                <button class="shadcn-btn shadcn-btn-outline py-1 px-3 text-sm">צפה</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shadcn-card">
+                        <div class="h-40 bg-purple-600 text-white p-4 flex items-end">
+                            <h3 class="text-2xl font-bold">גאדג'טים שווים</h3>
+                        </div>
+                        <div class="p-4">
+                            <p class="mb-2">המוצרים הטכנולוגיים שאני הכי אוהב</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm text-gray-500">5 המלצות</span>
+                                <button class="shadcn-btn shadcn-btn-outline py-1 px-3 text-sm">צפה</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="mt-12">
+                <h2 class="text-2xl font-semibold mb-6">סטטיסטיקות</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="shadcn-card p-6">
+                        <h3 class="text-lg font-medium mb-4">התפלגות קטגוריות</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>מסעדות</span>
+                                    <span>65%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>אטרקציות</span>
+                                    <span>20%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 20%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>מוצרים</span>
+                                    <span>10%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 10%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1">
+                                    <span>אחר</span>
+                                    <span>5%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-value" style="width: 5%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="shadcn-card p-6">
+                        <h3 class="text-lg font-medium mb-4">אינטראקציות והשפעה</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="text-center p-4 bg-blue-50 rounded-md">
+                                <span class="block text-3xl font-bold text-blue-600">1,254</span>
+                                <span class="text-sm text-gray-500">צפיות</span>
+                            </div>
+                            <div class="text-center p-4 bg-blue-50 rounded-md">
+                                <span class="block text-3xl font-bold text-blue-600">327</span>
+                                <span class="text-sm text-gray-500">לייקים</span>
+                            </div>
+                            <div class="text-center p-4 bg-blue-50 rounded-md">
+                                <span class="block text-3xl font-bold text-blue-600">78</span>
+                                <span class="text-sm text-gray-500">שיתופים</span>
+                            </div>
+                            <div class="text-center p-4 bg-blue-50 rounded-md">
+                                <span class="block text-3xl font-bold text-blue-600">₪542</span>
+                                <span class="text-sm text-gray-500">הכנסה מקישורים</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- דיאלוג עריכת פרופיל (מוסתר כברירת מחדל) -->
+    <div id="edit-profile-dialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="shadcn-card w-full max-w-md p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">עריכת פרופיל</h3>
+                <button class="text-gray-500 hover:text-gray-700" onclick="document.getElementById('edit-profile-dialog').classList.add('hidden')">
+                    <i class='bx bx-x text-2xl'></i>
+                </button>
+            </div>
+            
+            <form>
+                <div class="mb-4">
+                    <label class="shadcn-label" for="display-name">שם תצוגה</label>
+                    <input type="text" id="display-name" class="shadcn-input" value="ישראל ישראלי">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="shadcn-label" for="username">שם משתמש</label>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 ml-2">@</span>
+                        <input type="text" id="username" class="shadcn-input" value="israelisraeli">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="shadcn-label" for="bio">ביוגרפיה</label>
+                    <textarea id="bio" class="shadcn-input" rows="3">מומחה קולינרי וחובב טיולים. אוהב לשתף מקומות נהדרים בארץ ובעולם. מחפש תמיד את החוויות הכי טובות לשתף איתכם.</textarea>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="shadcn-label" for="email">אימייל</label>
+                    <input type="email" id="email" class="shadcn-input" value="israel@example.com">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="shadcn-label">תמונת פרופיל</label>
+                    <div class="mt-2 flex items-center space-x-4 space-x-reverse">
+                        <div class="shadcn-avatar w-16 h-16 bg-blue-600 text-white text-xl">י</div>
+                        <button type="button" class="shadcn-btn shadcn-btn-outline py-1 px-3">החלף תמונה</button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-4 space-x-reverse">
+                    <button type="button" class="shadcn-btn shadcn-btn-outline py-2 px-4" onclick="document.getElementById('edit-profile-dialog').classList.add('hidden')">ביטול</button>
+                    <button type="submit" class="shadcn-btn shadcn-btn-primary py-2 px-4">שמור שינויים</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="bg-gray-100 py-8">
+        <div class="container mx-auto px-4">
+            <div class="text-center">
+                <div class="text-xl font-bold text-blue-600 mb-4">המלצלי</div>
+                <p class="text-gray-600">הפלטפורמה המובילה לשיתוף המלצות אישיות בישראל</p>
+                <p class="mt-4 text-sm text-gray-500">© כל הזכויות שמורות המלצלי 2024</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // טאבים - ניהול החלפת תצוגה בין הטאבים השונים
+        document.querySelectorAll('.shadcn-tab').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.shadcn-tab').forEach(t => {
+                    t.setAttribute('aria-selected', 'false');
+                });
+                tab.setAttribute('aria-selected', 'true');
+                
+                // החלפת התוכן המוצג
+                const sections = document.querySelectorAll('main > section');
+                sections.forEach((section, sectionIndex) => {
+                    if (sectionIndex === index) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // פתיחת דיאלוג עריכת פרופיל
+        document.querySelector('button.shadcn-btn-outline').addEventListener('click', () => {
+            document.getElementById('edit-profile-dialog').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>

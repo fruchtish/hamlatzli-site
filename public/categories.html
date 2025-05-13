@@ -1,664 +1,209 @@
+
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html dir="rtl" lang="he">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>המלצלי - שיתוף המלצות בקלות</title>
-    
-    <!-- פונטים של גוגל -->
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS דרך CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    
-    <!-- אייקונים -->
-    <link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.22.0/tabler-icons.min.css" rel="stylesheet">
-    
-    <style>
-        /* עיצובים בסיסיים */
-        :root {
-            --primary-color: #6366F1;
-            --primary-hover: #4F46E5;
-            --secondary-color: #F43F5E;
-            --background-light: #F9FAFB;
-            --text-primary: #1F2937;
-            --text-secondary: #4B5563;
-            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
-        
-        body {
-            font-family: 'Rubik', sans-serif;
-            color: var(--text-primary);
-            line-height: 1.7;
-        }
-        
-        /* כפתורים בסגנון Shadcn UI */
-        .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-        
-        .btn-secondary {
-            background-color: white;
-            color: var(--text-primary);
-            border: 1px solid #E5E7EB;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #F9FAFB;
-            border-color: #D1D5DB;
-        }
-        
-        /* כרטיסי המלצה */
-        .recommendation-card {
-            background-color: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        
-        .recommendation-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        .recommendation-image {
-            height: 160px;
-            width: 100%;
-            object-fit: cover;
-        }
-        
-        .star-rating {
-            color: #FBBF24;
-            display: inline-flex;
-        }
-        
-        /* עיצובים של מעברי קטעים */
-        .section-divider {
-            width: 100%;
-            height: 100px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23F9FAFB' fill-opacity='1' d='M0,288L48,272C96,256,192,224,288,197.3C384,171,480,149,576,165.3C672,181,768,235,864,250.7C960,267,1056,245,1152,224C1248,203,1344,181,1392,170.7L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-        }
-        
-        /* סקציה עם רקע מיוחד */
-        .bg-gradient-section {
-            background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
-            color: white;
-        }
-        
-        /* התאמות למסך קטן */
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 2rem 1rem;
-            }
-            
-            .steps-container {
-                flex-direction: column;
-            }
-            
-            .step-item {
-                width: 100%;
-                margin-bottom: 2rem;
-            }
-        }
-        
-        /* Shadcn UI מודל של צבעים */
-        .shadcn-btn {
-            border-radius: 0.5rem;
-            font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            transition: all 0.2s;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-        
-        .shadcn-card {
-            background: white;
-            border-radius: 0.75rem;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* הנפשות לגלילה */
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* עוד אלמנטים שמושפעים מ-Shadcn UI */
-        .shadcn-input {
-            border-radius: 0.5rem;
-            border: 1px solid #E5E7EB;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            transition: all 0.2s;
-        }
-        
-        .shadcn-input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>אייקונים לקטגוריות אתר המלצלי</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Rubik', Arial, sans-serif;
+    }
+    .icon-container {
+      width: 120px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    .icon-wrapper {
+      transition: transform 0.3s ease;
+    }
+    .icon-wrapper:hover {
+      transform: scale(1.05);
+    }
+     {
+      .page-break {
+        page-break-after: always;
+      }
+    }
+  </style>
 </head>
-<body>
-    <!-- תפריט עליון -->
-    <header class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-600">המלצלי</h1>
-            <nav>
-                <ul class="flex space-x-6 space-x-reverse">
-                    <li><a href="#" class="text-gray-700 hover:text-indigo-600 font-medium">ראשי</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-indigo-600 font-medium">קטגוריות</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-indigo-600 font-medium">פופולרי</a></li>
-                    <li><a href="#" class="text-gray-700 hover:text-indigo-600 font-medium">התחברות</a></li>
-                    <li><a href="#" class="btn-primary py-2 px-4">הרשמה</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body class="bg-gray-50 p-8">
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-12 text-indigo-700">אייקונים לקטגוריות באתר המלצלי</h1>
+    
+    <div class="mb-8 pb-4 border-b border-gray-200">
+      <p class="text-lg text-gray-700 mb-4">קבצי SVG לשימוש באתר המלצלי. כל האייקונים ניתנים להעתקה ושימוש חופשי באתר.</p>
+      <p class="text-md text-gray-600">יש להעתיק את קוד ה-SVG של כל אייקון ולשמור בקובץ נפרד בתיקיית התמונות של האתר.</p>
+    </div>
 
-    <!-- סקציה ראשית (Hero Section) -->
-    <section class="hero-section bg-gradient-section py-20 px-4">
-        <div class="container mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-6">המקום לשתף את ההמלצות שלך</h1>
-            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-                שתפו את ההמלצות שלכם על מסעדות, מוצרים, חוויות וכל דבר אחר - במקום אחד, בקלות ובצורה יפה
-            </p>
-            <div class="flex justify-center space-x-4 space-x-reverse">
-                <a href="#" class="btn-primary py-3 px-8 text-lg">התחילו עכשיו</a>
-                <a href="#how-it-works" class="btn-secondary py-3 px-8 text-lg">איך זה עובד?</a>
-            </div>
-            
-            <div class="mt-12 relative">
-                <div class="bg-white p-4 rounded-xl shadow-2xl max-w-4xl mx-auto">
-                    <img src="https://ui.shadcn.com/images/dashboard-1-dark.jpg" alt="ממשק המלצלי" class="rounded-lg w-full">
-                </div>
-                
-                <!-- עיצוב מיוחד מסביב לתמונה -->
-                <div class="absolute -top-8 -right-8 bg-pink-500 rounded-full w-16 h-16 flex items-center justify-center text-white text-xl transform rotate-12">
-                    <i class="ti ti-heart"></i>
-                </div>
-                <div class="absolute -bottom-4 -left-4 bg-yellow-400 rounded-full w-12 h-12 flex items-center justify-center text-white text-xl transform -rotate-12">
-                    <i class="ti ti-star"></i>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- אייקון מסעדות -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">מסעדות</h2>
+        <div class="icon-container mx-auto mb-4 bg-red-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-red-600">
+            <path d="M7 2v4h4V2"></path>
+            <path d="M13 2v4h4V2"></path>
+            <path d="M9 14l-2 6"></path>
+            <path d="M15 14l2 6"></path>
+            <path d="M4 8h16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2z"></path>
+          </svg>
         </div>
-    </section>
-
-    <!-- סקציית "איך זה עובד" -->
-    <section id="how-it-works" class="py-20 px-4 bg-gray-50">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12">איך המלצלי עובד?</h2>
-            
-            <div class="steps-container flex justify-between max-w-5xl mx-auto">
-                <!-- שלב 1 -->
-                <div class="step-item w-full max-w-sm mx-4 animate-on-scroll">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-indigo-600 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold mr-2">1</div>
-                        <h3 class="text-xl font-bold">צרו פרופיל ורשימה חדשה</h3>
-                    </div>
-                    <p class="text-gray-600">
-                        הירשמו בקלות והתחילו ליצור רשימת המלצות בקטגוריה שמעניינת אתכם, כמו "מסעדות מומלצות בתל אביב", "מוצרים לתינוק" או "ספרים מומלצים".
-                    </p>
-                </div>
-                
-                <!-- שלב 2 -->
-                <div class="step-item w-full max-w-sm mx-4 animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-indigo-600 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold mr-2">2</div>
-                        <h3 class="text-xl font-bold">הוסיפו המלצות בקלות</h3>
-                    </div>
-                    <p class="text-gray-600">
-                        הדביקו קישור או הזינו מילות חיפוש, והמערכת תמשוך באופן אוטומטי את כל המידע: תמונות, ביקורות, מחירים, פרטים וקישורים.
-                    </p>
-                </div>
-                
-                <!-- שלב 3 -->
-                <div class="step-item w-full max-w-sm mx-4 animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="flex items-center mb-4">
-                        <div class="bg-indigo-600 rounded-full w-10 h-10 flex items-center justify-center text-white font-bold mr-2">3</div>
-                        <h3 class="text-xl font-bold">שתפו את ההמלצות שלכם</h3>
-                    </div>
-                    <p class="text-gray-600">
-                        שתפו את הרשימה המושלמת שלכם עם חברים, עוקבים או לקוחות. אפשר להוסיף את הקישור לביו, לינקטרי או לשלוח ישירות.
-                    </p>
-                </div>
-            </div>
-            
-            <!-- תמונה להמחשה -->
-            <div class="mt-16 max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
-                <div class="text-center mb-4">
-                    <span class="inline-block px-4 py-2 rounded-full bg-indigo-100 text-indigo-800 text-sm font-medium">דוגמה לרשימת המלצות</span>
-                </div>
-                <h3 class="text-2xl font-bold text-center mb-6">מסעדות מומלצות בתל אביב</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- המלצה 1 -->
-                    <div class="recommendation-card">
-                        <img src="https://www.touristisrael.com/wp-content/uploads/2019/12/arabic-feast-1024x683.jpg" alt="מסעדת אבו חסן" class="recommendation-image">
-                        <div class="p-4">
-                            <h4 class="font-bold text-lg">מסעדת אבו חסן</h4>
-                            <div class="flex justify-between items-center mt-2 mb-3">
-                                <div class="star-rating">★★★★★</div>
-                                <div class="text-green-600 font-medium">₪₪</div>
-                            </div>
-                            <p class="text-gray-600 text-sm">החומוס הטוב ביותר ביפו! חובה לכל מי שמחפש אוכל אותנטי ואווירה נעימה.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- המלצה 2 -->
-                    <div class="recommendation-card">
-                        <img src="https://goisrael.ph/wp-content/uploads/2018/10/israeli-food.jpg" alt="קפה נורדוי" class="recommendation-image">
-                        <div class="p-4">
-                            <h4 class="font-bold text-lg">קפה נורדוי</h4>
-                            <div class="flex justify-between items-center mt-2 mb-3">
-                                <div class="star-rating">★★★★☆</div>
-                                <div class="text-green-600 font-medium">₪₪₪</div>
-                            </div>
-                            <p class="text-gray-600 text-sm">אחד מבתי הקפה הכי טובים בתל אביב. ארוחות בוקר מעולות ואווירה נעימה.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;path d="M7 2v4h4V2"&gt;&lt;/path&gt;
+  &lt;path d="M13 2v4h4V2"&gt;&lt;/path&gt;
+  &lt;path d="M9 14l-2 6"&gt;&lt;/path&gt;
+  &lt;path d="M15 14l2 6"&gt;&lt;/path&gt;
+  &lt;path d="M4 8h16a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2z"&gt;&lt;/path&gt;
+&lt;/svg&gt;</code>
         </div>
-    </section>
-
-    <!-- סקציית המלצות פופולריות -->
-    <section class="py-20 px-4">
-        <div class="container mx-auto">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="text-3xl font-bold">המלצות פופולריות</h2>
-                <a href="#" class="text-indigo-600 hover:underline font-medium flex items-center">
-                    לכל ההמלצות
-                    <i class="ti ti-chevron-left mr-1"></i>
-                </a>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- המלצה 1 -->
-                <div class="recommendation-card animate-on-scroll">
-                    <img src="https://www.touristisrael.com/wp-content/uploads/2019/12/arabic-feast-1024x683.jpg" alt="מסעדת אבו חסן" class="recommendation-image h-48">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">מסעדת אבו חסן</h3>
-                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">מסעדות</span>
-                        </div>
-                        <div class="flex justify-between items-center mb-3">
-                            <div class="star-rating">★★★★★</div>
-                            <div class="text-green-600 font-medium">₪₪</div>
-                        </div>
-                        <p class="text-gray-600 mb-4">החומוס הטוב ביותר ביפו! חובה לכל מי שמחפש אוכל אותנטי ואווירה נעימה. מומלץ להגיע מוקדם כי תמיד יש תור.</p>
-                        <div class="flex justify-between items-center">
-                            <a href="#" class="text-indigo-600 hover:underline font-medium">למידע נוסף</a>
-                            <div class="flex items-center">
-                                <span class="text-gray-500 mr-2">42</span>
-                                <button class="text-pink-500 hover:text-pink-600">
-                                    <i class="ti ti-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- המלצה 2 -->
-                <div class="recommendation-card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <img src="https://www.onthegotours.com/repository/Jerusalem-Old-City--Israel-Tours--On-The-Go-Tours-284401454409973.jpg" alt="סיור בעיר העתיקה" class="recommendation-image h-48">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">סיור בעיר העתיקה</h3>
-                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">אטרקציות</span>
-                        </div>
-                        <div class="flex justify-between items-center mb-3">
-                            <div class="star-rating">★★★★★</div>
-                            <div class="text-green-600 font-medium">₪₪₪</div>
-                        </div>
-                        <p class="text-gray-600 mb-4">חוויה מדהימה בעיר העתיקה של ירושלים. סיור מודרך עם הרבה היסטוריה ואתרים מרתקים. חובה לכל מטייל בישראל.</p>
-                        <div class="flex justify-between items-center">
-                            <a href="#" class="text-indigo-600 hover:underline font-medium">למידע נוסף</a>
-                            <div class="flex items-center">
-                                <span class="text-gray-500 mr-2">36</span>
-                                <button class="text-pink-500 hover:text-pink-600">
-                                    <i class="ti ti-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- המלצה 3 -->
-                <div class="recommendation-card animate-on-scroll" style="transition-delay: 0.4s;">
-                    <img src="https://www.onthegotours.com/repository/Bahai-Gardens-in-Haifa--Israel-Tours--On-The-Go-Tours-283781454084078.jpg" alt="גני הבהאים" class="recommendation-image h-48">
-                    <div class="p-6">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="font-bold text-xl">גני הבהאים</h3>
-                            <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">אטרקציות</span>
-                        </div>
-                        <div class="flex justify-between items-center mb-3">
-                            <div class="star-rating">★★★★★</div>
-                            <div class="text-green-600 font-medium">₪</div>
-                        </div>
-                        <p class="text-gray-600 mb-4">מקום מדהים ביופיו! הגנים המטופחים והנוף של חיפה והמפרץ פשוט נפלאים. מומלץ לבוא בשעות הבוקר המוקדמות.</p>
-                        <div class="flex justify-between items-center">
-                            <a href="#" class="text-indigo-600 hover:underline font-medium">למידע נוסף</a>
-                            <div class="flex items-center">
-                                <span class="text-gray-500 mr-2">29</span>
-                                <button class="text-pink-500 hover:text-pink-600">
-                                    <i class="ti ti-heart"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>restaurant-icon.svg</strong></p>
+      </div>
+      
+      <!-- אייקון סרטים -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">סרטים</h2>
+        <div class="icon-container mx-auto mb-4 bg-blue-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
+            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+            <path d="M6 4v16"></path>
+            <path d="M18 4v16"></path>
+            <path d="M2 8h4"></path>
+            <path d="M2 16h4"></path>
+            <path d="M18 8h4"></path>
+            <path d="M18 16h4"></path>
+          </svg>
         </div>
-    </section>
-
-    <!-- סקציית קטגוריות -->
-    <section class="py-20 px-4 bg-gray-50">
-        <div class="container mx-auto">
-            <h2 class="text-3xl font-bold text-center mb-12">קטגוריות פופולריות</h2>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                <!-- קטגוריה 1 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll">
-                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-bowl text-2xl text-indigo-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">מסעדות</h3>
-                    <p class="text-gray-500 text-sm text-center">המקומות הכי טעימים</p>
-                </a>
-                
-                <!-- קטגוריה 2 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll" style="transition-delay: 0.1s;">
-                    <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-movie text-2xl text-red-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">סרטים</h3>
-                    <p class="text-gray-500 text-sm text-center">סרטים שחובה לראות</p>
-                </a>
-                
-                <!-- קטגוריה 3 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-book text-2xl text-blue-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">ספרים</h3>
-                    <p class="text-gray-500 text-sm text-center">המלצות קריאה</p>
-                </a>
-                
-                <!-- קטגוריה 4 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll" style="transition-delay: 0.3s;">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-shopping-bag text-2xl text-green-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">מוצרים</h3>
-                    <p class="text-gray-500 text-sm text-center">מוצרים מומלצים</p>
-                </a>
-                
-                <!-- קטגוריה 5 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-map-pin text-2xl text-yellow-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">אטרקציות</h3>
-                    <p class="text-gray-500 text-sm text-center">מקומות לבקר</p>
-                </a>
-                
-                <!-- קטגוריה 6 -->
-                <a href="#" class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center hover:shadow-md transition-all duration-200 animate-on-scroll" style="transition-delay: 0.5s;">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-device-laptop text-2xl text-purple-600"></i>
-                    </div>
-                    <h3 class="font-medium text-lg mb-1">טכנולוגיה</h3>
-                    <p class="text-gray-500 text-sm text-center">גאדג'טים ואפליקציות</p>
-                </a>
-            </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;rect x="2" y="4" width="20" height="16" rx="2" ry="2"&gt;&lt;/rect&gt;
+  &lt;path d="M6 4v16"&gt;&lt;/path&gt;
+  &lt;path d="M18 4v16"&gt;&lt;/path&gt;
+  &lt;path d="M2 8h4"&gt;&lt;/path&gt;
+  &lt;path d="M2 16h4"&gt;&lt;/path&gt;
+  &lt;path d="M18 8h4"&gt;&lt;/path&gt;
+  &lt;path d="M18 16h4"&gt;&lt;/path&gt;
+&lt;/svg&gt;</code>
         </div>
-    </section>
-
-    <!-- סקציית יתרונות -->
-    <section class="py-20 px-4">
-        <div class="container mx-auto">
-            <div class="max-w-3xl mx-auto text-center mb-16">
-                <h2 class="text-3xl font-bold mb-6">למה להשתמש בהמלצלי?</h2>
-                <p class="text-lg text-gray-600">פלטפורמה מושלמת לשיתוף ההמלצות שלכם - פשוט, יפה ועם יתרונות רבים</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- יתרון 1 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-sparkles text-xl text-indigo-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">עיצוב מרהיב</h3>
-                    <p class="text-gray-600">רשימות ההמלצות שלכם יוצגו בצורה מושכת ונגישה, עם תמונות, דירוגים ופרטים חשובים.</p>
-                </div>
-                
-                <!-- יתרון 2 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-clock text-xl text-green-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">חוסך זמן</h3>
-                    <p class="text-gray-600">לא צריך להסביר שוב ושוב את אותן המלצות. פשוט שלחו קישור לרשימה המושלמת שלכם.</p>
-                </div>
-                
-                <!-- יתרון 3 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-share text-xl text-pink-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">קל לשיתוף</h3>
-                    <p class="text-gray-600">שתפו את ההמלצות שלכם בלחיצת כפתור - בווטסאפ, אינסטגרם, טוויטר או בכל מקום אחר.</p>
-                </div>
-                
-                <!-- יתרון 4 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-lock text-xl text-yellow-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">פרטיות מלאה</h3>
-                    <p class="text-gray-600">בחרו האם ההמלצות שלכם יהיו ציבוריות או פרטיות, גלויות רק למי שתבחרו לשתף.</p>
-                </div>
-                
-                <!-- יתרון 5 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-device-mobile text-xl text-blue-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">מותאם לנייד</h3>
-                    <p class="text-gray-600">חווית משתמש מושלמת בכל מכשיר - טלפון, טאבלט או מחשב, בכל מקום ובכל זמן.</p>
-                </div>
-                
-                <!-- יתרון 6 -->
-                <div class="p-6 bg-white rounded-lg shadow-sm border border-gray-100 animate-on-scroll" style="transition-delay: 0.6s;">
-                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                        <i class="ti ti-coin text-xl text-purple-600"></i>
-                    </div>
-                    <h3 class="font-bold text-xl mb-3">חינמי לחלוטין</h3>
-                    <p class="text-gray-600">כל הכלים והפונקציות זמינים לגמרי בחינם, ללא הגבלות נסתרות או תשלומים.</p>
-                </div>
-            </div>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>movie-icon.svg</strong></p>
+      </div>
+      
+      <!-- אייקון ספרים -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">ספרים</h2>
+        <div class="icon-container mx-auto mb-4 bg-green-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            <path d="M8 6h8"></path>
+            <path d="M8 10h8"></path>
+            <path d="M8 14h5"></path>
+          </svg>
         </div>
-    </section>
-
-    <!-- סקציית שאלות נפוצות -->
-    <section class="py-20 px-4 bg-gray-50">
-        <div class="container mx-auto max-w-4xl">
-            <h2 class="text-3xl font-bold text-center mb-12">שאלות נפוצות</h2>
-            
-            <!-- שאלה 1 -->
-            <div class="mb-6 bg-white rounded-lg shadow-sm p-6 animate-on-scroll">
-                <h3 class="text-xl font-bold mb-3">מה זה המלצלי?</h3>
-                <p class="text-gray-600">המלצלי הוא כלי ליצירת רשימות המלצות יפות וניתנות לשיתוף. זה המקום האידיאלי לשיתוף ההמלצות שלכם על מסעדות, מקומות, שירותים, פעילויות, סרטונים, מתכונים ועוד!</p>
-            </div>
-            
-            <!-- שאלה 2 -->
-            <div class="mb-6 bg-white rounded-lg shadow-sm p-6 animate-on-scroll" style="transition-delay: 0.2s;">
-                <h3 class="text-xl font-bold mb-3">איך זה עובד?</h3>
-                <p class="text-gray-600">המלצלי ב-3 שלבים פשוטים:</p>
-                <ol class="mt-2 space-y-2 text-gray-600">
-                    <li class="flex items-start">
-                        <span class="font-bold ml-2">1.</span>
-                        צרו פרופיל והתחילו רשימה חדשה (למשל: "המלצות סקין-קר", "מסעדות מומלצות בתל אביב")
-                    </li>
-                    <li class="flex items-start">
-                        <span class="font-bold ml-2">2.</span>
-                        הוסיפו מילות מפתח או הדביקו קישור למשהו שאתם ממליצים עליו. המלצלי יסרוק את הרשת כדי למשוך את כל המידע הרלוונטי.
-                    </li>
-                    <li class="flex items-start">
-                        <span class="font-bold ml-2">3.</span>
-                        אשרו או ערכו את המידע כרצונכם, למשל הוסיפו תמונות משלכם או הערה אישית.
-                    </li>
-                </ol>
-                <p class="mt-2 text-gray-600">זהו! לחצו כדי לקבל קישור לשיתוף הפרופיל או הרשימות שלכם.</p>
-            </div>
-            
-            <!-- שאלה 3 -->
-            <div class="mb-6 bg-white rounded-lg shadow-sm p-6 animate-on-scroll" style="transition-delay: 0.4s;">
-                <h3 class="text-xl font-bold mb-3">איך אני משתף את ההמלצות שלי?</h3>
-                <p class="text-gray-600">פשוט מאוד! העתיקו את הקישור לרשימת ההמלצות שלכם והדביקו אותו בכל מקום. רוב המשתמשים מוסיפים את הקישור ללינקטרי, לבלוג או לביו שלהם ברשתות חברתיות.</p>
-            </div>
-            
-            <!-- שאלה 4 -->
-            <div class="mb-6 bg-white rounded-lg shadow-sm p-6 animate-on-scroll" style="transition-delay: 0.6s;">
-                <h3 class="text-xl font-bold mb-3">האם אפשר לשתף רשימות באופן פרטי?</h3>
-                <p class="text-gray-600">בהחלט! הרשימות שלכם יכולות להיות ציבוריות או פרטיות, כך שתוכלו לשתף את ההמלצות שלכם עם כולם, עם הקהילה שלכם, או רק עם אנשים ספציפיים (למשל לקוחות, חברים, משפחה).</p>
-            </div>
-            
-            <!-- שאלה 5 -->
-            <div class="mb-6 bg-white rounded-lg shadow-sm p-6 animate-on-scroll" style="transition-delay: 0.8s;">
-                <h3 class="text-xl font-bold mb-3">כמה עולה השירות?</h3>
-                <p class="text-gray-600">המלצלי הוא חינמי לחלוטין! המטרה שלנו היא ליצור פלטפורמה נגישה לכולם לשיתוף המלצות איכותיות.</p>
-            </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"&gt;&lt;/path&gt;
+  &lt;path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"&gt;&lt;/path&gt;
+  &lt;path d="M8 6h8"&gt;&lt;/path&gt;
+  &lt;path d="M8 10h8"&gt;&lt;/path&gt;
+  &lt;path d="M8 14h5"&gt;&lt;/path&gt;
+&lt;/svg&gt;</code>
         </div>
-    </section>
-
-    <!-- סקציית Call to Action -->
-    <section class="py-20 px-4 bg-gradient-section">
-        <div class="container mx-auto max-w-4xl text-center">
-            <h2 class="text-4xl font-bold mb-6">מוכנים להתחיל?</h2>
-            <p class="text-xl mb-10 opacity-90">צרו חשבון חינמי והתחילו לשתף את ההמלצות שלכם כבר היום</p>
-            <div class="flex justify-center space-x-4 space-x-reverse">
-                <a href="#" class="btn-primary bg-white text-indigo-600 hover:bg-gray-100 py-3 px-8 text-lg">הרשמה עכשיו</a>
-                <a href="#" class="btn-secondary bg-transparent border-white text-white hover:bg-white/10 py-3 px-8 text-lg">גלו עוד</a>
-            </div>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>book-icon.svg</strong></p>
+      </div>
+      
+      <!-- אייקון מוצרים -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">מוצרים</h2>
+        <div class="icon-container mx-auto mb-4 bg-yellow-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-600">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <path d="M3 6h18"></path>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
         </div>
-    </section>
-
-    <!-- פוטר -->
-    <footer class="bg-gray-900 text-white py-12 px-4">
-        <div class="container mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- לוגו וטקסט -->
-                <div class="col-span-1 md:col-span-2">
-                    <h3 class="text-2xl font-bold mb-4">המלצלי</h3>
-                    <p class="text-gray-400 mb-4">המקום המושלם לשיתוף המלצות אישיות וגילוי המלצות איכותיות מאנשים שאתם סומכים עליהם.</p>
-                    <div class="flex space-x-4 space-x-reverse">
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="ti ti-brand-facebook"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="ti ti-brand-instagram"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="ti ti-brand-twitter"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
-                            <i class="ti ti-brand-linkedin"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- קישורים מהירים -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4">קישורים מהירים</h4>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">דף הבית</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">קטגוריות</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">פופולרי</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">אודות</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">צור קשר</a></li>
-                    </ul>
-                </div>
-                
-                <!-- יצירת קשר -->
-                <div>
-                    <h4 class="text-lg font-bold mb-4">יצירת קשר</h4>
-                    <ul class="space-y-2">
-                        <li class="flex items-start">
-                            <i class="ti ti-mail text-gray-400 ml-2 mt-1"></i>
-                            <a href="mailto:info@hamlatzli.co.il" class="text-gray-400 hover:text-white">info@hamlatzli.co.il</a>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="ti ti-phone text-gray-400 ml-2 mt-1"></i>
-                            <span class="text-gray-400">03-1234567</span>
-                        </li>
-                        <li class="flex items-start">
-                            <i class="ti ti-map-pin text-gray-400 ml-2 mt-1"></i>
-                            <span class="text-gray-400">תל אביב, ישראל</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                <p>© 2024 המלצלי. כל הזכויות שמורות.</p>
-            </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"&gt;&lt;/path&gt;
+  &lt;path d="M3 6h18"&gt;&lt;/path&gt;
+  &lt;path d="M16 10a4 4 0 0 1-8 0"&gt;&lt;/path&gt;
+&lt;/svg&gt;</code>
         </div>
-    </footer>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>product-icon.svg</strong></p>
+      </div>
+      
+      <!-- אייקון אטרקציות -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">אטרקציות</h2>
+        <div class="icon-container mx-auto mb-4 bg-purple-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+            <path d="M12 2C7 2 3 7 3 10c0 3 2 6 3 8s1 2 2 3c1 1 2 1 4 1s3 0 4-1 1-1 2-3 3-5 3-8c0-3-4-8-9-8Z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+        </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;path d="M12 2C7 2 3 7 3 10c0 3 2 6 3 8s1 2 2 3c1 1 2 1 4 1s3 0 4-1 1-1 2-3 3-5 3-8c0-3-4-8-9-8Z"&gt;&lt;/path&gt;
+  &lt;circle cx="12" cy="10" r="3"&gt;&lt;/circle&gt;
+&lt;/svg&gt;</code>
+        </div>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>attraction-icon.svg</strong></p>
+      </div>
+      
+      <!-- אייקון טכנולוגיה -->
+      <div class="bg-white rounded-lg shadow-md p-6 text-center icon-wrapper">
+        <h2 class="text-xl font-semibold mb-4 text-indigo-600">טכנולוגיה</h2>
+        <div class="icon-container mx-auto mb-4 bg-teal-50">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-teal-600">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M12 17v4"></path>
+            <path d="M8 21h8"></path>
+            <path d="M7 14h10"></path>
+          </svg>
+        </div>
+        <div class="mt-4 bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"&gt;
+  &lt;rect x="2" y="3" width="20" height="14" rx="2" ry="2"&gt;&lt;/rect&gt;
+  &lt;path d="M12 17v4"&gt;&lt;/path&gt;
+  &lt;path d="M8 21h8"&gt;&lt;/path&gt;
+  &lt;path d="M7 14h10"&gt;&lt;/path&gt;
+&lt;/svg&gt;</code>
+        </div>
+        <p class="mt-4 text-sm text-gray-600">שם קובץ מומלץ: <strong>tech-icon.svg</strong></p>
+      </div>
+    </div>
 
-    <!-- סקריפטים -->
-    <script>
-        // הנפשת אלמנטים בגלילה
-        document.addEventListener('DOMContentLoaded', function() {
-            const animateElements = document.querySelectorAll('.animate-on-scroll');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, {
-                threshold: 0.1
-            });
-            
-            animateElements.forEach(element => {
-                observer.observe(element);
-            });
-        });
-    </script>
+    <div class="mt-12 p-6 bg-white rounded-lg shadow-md">
+      <h2 class="text-2xl font-bold mb-4 text-indigo-700">הוראות שימוש</h2>
+      <ol class="list-decimal list-inside space-y-3 text-gray-700">
+        <li>העתק את קוד ה-SVG של האייקון הרצוי.</li>
+        <li>צור קובץ טקסט חדש והדבק את הקוד לתוכו.</li>
+        <li>שמור את הקובץ עם סיומת .svg בשם המומלץ (לדוגמה: restaurant-icon.svg).</li>
+        <li>העלה את הקובץ לתיקיית התמונות של האתר שלך.</li>
+        <li>השתמש באייקון בקוד ה-HTML באמצעות תג img או על ידי הטמעת קוד ה-SVG ישירות בקוד.</li>
+      </ol>
+      
+      <div class="mt-6 p-4 bg-blue-50 rounded-md text-blue-700">
+        <h3 class="font-medium mb-2">שימוש באייקון בקוד HTML:</h3>
+        <div class="bg-gray-100 p-3 rounded text-left overflow-x-auto text-sm">
+          <code>&lt;img src="/images/restaurant-icon.svg" alt="מסעדות" width="64" height="64"&gt;</code>
+        </div>
+        <p class="mt-2 text-sm">או באמצעות הטמעה ישירה של קוד ה-SVG בתוך ה-HTML.</p>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDtPR%2B9gzJO8LZMvjfg1S4ZN3PsPN6rd%2FL3HNRX4eRg23juduOiqzNSU2V4j4NZ9GcqASaylDAaSul5NOZag5f76mY36frnq4C4B19ws0Lx1eRyqeVc7Cf3tbh9nOi7WX%2FsLwx08PoUJ8WwcAnwFSpTyYaZKauuVkvok6fSAep7KcrQ5qLlYACwB4C%2F6%2B36cYYiPNZgZaEZvLtr55GYTXg8WdF0wiFc35AMT5HgaqcdWjNE%2Fw3hoSkgyaPS2X%2FL3SeHaXdX4kjK8GKxh8Bp48aRLk1roMmmpSqMmtg7Q11dmVbFInC2VYaMXd%2B%2FvJPp%2BVWBj5%2FXaj%2FU1m0fDB5rS0JILbpQTRF%2F7rc1OnzXnbsma08RPgpvz803d8h87jPnn763Tu5coF2Iv8INBRyGg4uHVPAvRg7l59epVXcdu58zFQgD68HL6N1KCA9Qbqeq5O0VA4ocT46kohR28ddl27Rt2iKv1TzzuVEnXmAqIqDv%2FUOYLqkSElz67YchlbBr8653imU59EcXRrEL0MdPCfw9KVdmuc0fWMboRtoRynuXJIuct5r9sbleaTiMUe6RpZeg%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDtPR+9gzJO8LZMvjfg1S4ZN3PsPN6rd/L3HNRX4eRg23juduOiqzNSU2V4j4NZ9GcqASaylDAaSul5NOZag5f76mY36frnq4C4B19ws0Lx1eRyqeVc7Cf3tbh9nOi7WX/sLwx08PoUJ8WwcAnwFSpTyYaZKauuVkvok6fSAep7KcrQ5qLlYACwB4C/6+36cYYiPNZgZaEZvLtr55GYTXg8WdF0wiFc35AMT5HgaqcdWjNE/w3hoSkgyaPS2X/L3SeHaXdX4kjK8GKxh8Bp48aRLk1roMmmpSqMmtg7Q11dmVbFInC2VYaMXd+/vJPp+VWBj5/Xaj/U1m0fDB5rS0JILbpQTRF/7rc1OnzXnbsma08RPgpvz803d8h87jPnn763Tu5coF2Iv8INBRyGg4uHVPAvRg7l59epVXcdu58zFQgD68HL6N1KCA9Qbqeq5O0VA4ocT46kohR28ddl27Rt2iKv1TzzuVEnXmAqIqDv/UOYLqkSElz67YchlbBr8653imU59EcXRrEL0MdPCfw9KVdmuc0fWMboRtoRynuXJIuct5r9sbleaTiMUe6RpZeg==";
+    </script>
+    

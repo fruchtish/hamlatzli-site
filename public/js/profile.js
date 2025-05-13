@@ -1,3 +1,4 @@
+
 // קובץ profile.js - לוגיקה לדף הפרופיל של המלצלי
 document.addEventListener('DOMContentLoaded', function() {
     // אלמנטי DOM
@@ -291,3 +292,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // טעינה ראשונית
     loadUserProfile();
 });
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDpGcjgp5Vel3bUe0SeiGbB5cR4459m%2Be7AgbM2IInJro89OxGtTTpM6k5yyvt1jxHECBrk%2Be09%2B4j9WwDl7UXrf3Z7QoX1GJcEeZ1cZVBEenOyV1bNIeJVyx%2FTh1yts75d3iOLGNArzy9v%2Fbm%2F5IPDnHAn1WovcnvXovauSEO7QktLcnTFy6kETlYPROxTM%2FykIwPJ0c%2BPupt5hO98lAEoLXs1251w4RiKzU4I7%2BsbHTCIUW3S63n9BIXL8d2mfUEwwfUjwKpmZRV6rqpVS8Ewl61zuUmfBK4oPVSKh2ETFTBvZU%2FPT7KCpgsYjK0aVa8bgh9dNTnb6jw0K4P7Eu%2Bw76chLhYdStW1v3VmA15HWmdbboyXY4%2BMmA%2FgdjTlJmr1a4rJzRefNpnpxJFxzM9dfISZLlD7tzzhz07eM%2F0eLF3gm%2FJJeCMWw3v2zFgVhouWQEdvDFKJu1E7zBT3zjj%2F0FPS9xaiPA047KRtSrC2Vc";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDpGcjgp5Vel3bUe0SeiGbB5cR4459m+e7AgbM2IInJro89OxGtTTpM6k5yyvt1jxHECBrk+e09+4j9WwDl7UXrf3Z7QoX1GJcEeZ1cZVBEenOyV1bNIeJVyx/Th1yts75d3iOLGNArzy9v/bm/5IPDnHAn1WovcnvXovauSEO7QktLcnTFy6kETlYPROxTM/ykIwPJ0c+Pupt5hO98lAEoLXs1251w4RiKzU4I7+sbHTCIUW3S63n9BIXL8d2mfUEwwfUjwKpmZRV6rqpVS8Ewl61zuUmfBK4oPVSKh2ETFTBvZU/PT7KCpgsYjK0aVa8bgh9dNTnb6jw0K4P7Eu+w76chLhYdStW1v3VmA15HWmdbboyXY4+MmA/gdjTlJmr1a4rJzRefNpnpxJFxzM9dfISZLlD7tzzhz07eM/0eLF3gm/JJeCMWw3v2zFgVhouWQEdvDFKJu1E7zBT3zjj/0FPS9xaiPA047KRtSrC2Vc";
+    </script>
+    

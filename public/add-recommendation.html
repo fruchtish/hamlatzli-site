@@ -1,123 +1,348 @@
+
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>הוסף המלצה - המלצ-לי</title>
-  <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>הוספת המלצה חדשה - המלצלי</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-foreground: #ffffff;
+      --secondary: #f3f4f6;
+      --secondary-foreground: #1f2937;
+      --border: #e5e7eb;
+      --input: #e5e7eb;
+      --ring: #4f46e5;
+      --radius: 0.5rem;
+    }
+
+    body {
+      font-family: 'Heebo', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+
+    .card {
+      background-color: white;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      font-weight: 500;
+      border-radius: var(--radius);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid #d1d5db;
+      color: #4b5563;
+      font-weight: 500;
+      border-radius: var(--radius);
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      background-color: #f9fafb;
+      border-color: #9ca3af;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem;
+      font-size: 1rem;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--ring);
+      box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #4b5563;
+      transition: color 0.15s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--primary);
+    }
+    
+    .image-preview {
+      max-height: 200px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+    
+    .image-preview img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
+    .file-input-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-height: 100px;
+    }
+
+    .file-input-wrapper:hover .file-input-label {
+      border-color: var(--primary);
+      background-color: rgba(79, 70, 229, 0.05);
+    }
+
+    .drag-highlight {
+      border-color: var(--primary);
+      background-color: rgba(79, 70, 229, 0.1);
+    }
+
+    .rating-selector {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    .rating-selector input {
+      display: none;
+    }
+
+    .rating-selector label {
+      font-size: 1.5rem;
+      color: #d1d5db;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      padding: 0 0.2rem;
+    }
+
+    .rating-selector input:checked ~ label,
+    .rating-selector label:hover,
+    .rating-selector label:hover ~ label {
+      color: #facc15;
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <div class="container header-container">
-      <div class="logo">המלצ-לי</div>
-      <nav>
-        <ul class="nav-menu">
-          <li><a href="/">ראשי</a></li>
-          <li><a href="/categories.html">קטגוריות</a></li>
-          <li class="logged-in" style="display: none;"><span id="user-info"></span></li>
-          <li class="logged-in" style="display: none;"><a href="#" id="logout-btn">התנתקות</a></li>
-        </ul>
-      </nav>
+  <header class="header py-4">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center">
+        <a href="/" class="logo">המלצלי</a>
+        <nav>
+          <ul class="flex space-x-6 space-x-reverse">
+            <li><a href="/" class="nav-link">ראשי</a></li>
+            <li><a href="/categories.html" class="nav-link">קטגוריות</a></li>
+            <li><a href="/add-recommendation.html" class="nav-link active">הוסף המלצה</a></li>
+            <li><a href="#" id="logout-btn" class="nav-link">התנתקות</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <main>
-    <div class="container">
-      <div class="auth-container">
-        <div class="card">
-          <h2>שתף את ההמלצה שלך</h2>
-          <div id="alert-container"></div>
+  <main class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+      <div class="card p-6 md:p-8">
+        <h1 class="text-2xl font-bold mb-6 text-center">שתף את ההמלצה שלך</h1>
+        <div id="alert-container"></div>
+        
+        <form id="add-recommendation-form" class="space-y-6">
+          <div>
+            <label for="recommendation-title" class="form-label">כותרת</label>
+            <input type="text" id="recommendation-title" class="form-input" required>
+          </div>
           
-          <form id="add-recommendation-form">
-            <div class="form-group">
-              <label for="recommendation-title">כותרת</label>
-              <input type="text" id="recommendation-title" class="form-control" required>
+          <div>
+            <label for="recommendation-category" class="form-label">קטגוריה</label>
+            <select id="recommendation-category" class="form-select" required>
+              <option value="">בחרו קטגוריה</option>
+              <option value="מסעדות">מסעדות ובתי קפה</option>
+              <option value="סרטים">סרטים וסדרות</option>
+              <option value="ספרים">ספרים וקריאה</option>
+              <option value="מוצרים">מוצרים ושופינג</option>
+              <option value="אטרקציות">אטרקציות ובילויים</option>
+              <option value="טכנולוגיה">טכנולוגיה וגאדג׳טים</option>
+              <option value="מוזיקה">מוזיקה והופעות</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="form-label">דירוג</label>
+            <div class="rating-selector">
+              <input type="radio" name="rating" id="rating-5" value="5" checked>
+              <label for="rating-5"><i class='bx bxs-star'></i></label>
+              <input type="radio" name="rating" id="rating-4" value="4">
+              <label for="rating-4"><i class='bx bxs-star'></i></label>
+              <input type="radio" name="rating" id="rating-3" value="3">
+              <label for="rating-3"><i class='bx bxs-star'></i></label>
+              <input type="radio" name="rating" id="rating-2" value="2">
+              <label for="rating-2"><i class='bx bxs-star'></i></label>
+              <input type="radio" name="rating" id="rating-1" value="1">
+              <label for="rating-1"><i class='bx bxs-star'></i></label>
             </div>
-            <div class="form-group">
-              <label for="recommendation-category">קטגוריה</label>
-              <select id="recommendation-category" class="form-control" required>
-                <option value="">בחרו קטגוריה</option>
-                <option value="מסעדות">מסעדות ובתי קפה</option>
-                <option value="סרטים">סרטים וסדרות</option>
-                <option value="ספרים">ספרים וקריאה</option>
-                <option value="מוצרים">מוצרים ושופינג</option>
-                <option value="אטרקציות">אטרקציות ובילויים</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="recommendation-rating">דירוג</label>
-              <select id="recommendation-rating" class="form-control" required>
-                <option value="5">5 כוכבים - מעולה</option>
-                <option value="4">4 כוכבים - טוב מאוד</option>
-                <option value="3">3 כוכבים - טוב</option>
-                <option value="2">2 כוכבים - סביר</option>
-                <option value="1">1 כוכב - לא מומלץ</option>
-              </select>
-            </div>
-            <div class="form-group location-group" style="display: none;">
-              <label for="recommendation-location">מיקום/כתובת</label>
-              <input type="text" id="recommendation-location" class="form-control" placeholder="הזן כתובת מדויקת">
-            </div>
-            
-            <div class="form-group">
-              <label for="recommendation-price">טווח מחירים</label>
-              <select id="recommendation-price" class="form-control">
-                <option value="">בחר טווח מחירים</option>
-                <option value="₪">₪ - עד 50 ש״ח</option>
-                <option value="₪₪">₪₪ - 50-100 ש״ח</option>
-                <option value="₪₪₪">₪₪₪ - 100-200 ש״ח</option>
-                <option value="₪₪₪₪">₪₪₪₪ - 200+ ש״ח</option>
-              </select>
-            </div>
+          </div>
+          
+          <div class="location-group hidden">
+            <label for="recommendation-location" class="form-label">מיקום/כתובת</label>
+            <input type="text" id="recommendation-location" class="form-input" placeholder="הזן כתובת מדויקת">
+          </div>
+          
+          <div>
+            <label for="recommendation-price" class="form-label">טווח מחירים</label>
+            <select id="recommendation-price" class="form-select">
+              <option value="">בחר טווח מחירים</option>
+              <option value="₪">₪ - עד 50 ש״ח</option>
+              <option value="₪₪">₪₪ - 50-100 ש״ח</option>
+              <option value="₪₪₪">₪₪₪ - 100-200 ש״ח</option>
+              <option value="₪₪₪₪">₪₪₪₪ - 200+ ש״ח</option>
+            </select>
+          </div>
 
-            <div class="form-group">
-              <label for="recommendation-description">תיאור</label>
-              <textarea id="recommendation-description" class="form-control" rows="5" required placeholder="ספר על החוויה שלך..."></textarea>
-            </div>
+          <div>
+            <label for="recommendation-description" class="form-label">תיאור</label>
+            <textarea id="recommendation-description" class="form-textarea" rows="5" required placeholder="ספר על החוויה שלך..."></textarea>
+          </div>
 
-            <div class="form-group">
-              <label for="recommendation-image">תמונה</label>
-              <div class="image-upload-container">
-                <input type="file" id="recommendation-image" class="form-control" accept="image/*">
-                <div class="image-preview" id="image-preview"></div>
+          <div>
+            <label class="form-label">תמונה</label>
+            <div class="file-input-wrapper" id="dropzone">
+              <input type="file" id="recommendation-image" accept="image/*">
+              <div class="file-input-label">
+                <div class="text-center">
+                  <i class='bx bx-upload text-2xl mb-2'></i>
+                  <div>גרור קובץ לכאן או לחץ לבחירת קובץ</div>
+                </div>
               </div>
             </div>
+            <div class="image-preview hidden" id="image-preview"></div>
+          </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">הוסף המלצה</button>
-              <button type="reset" class="btn btn-outline">נקה טופס</button>
-            </div>
-          </form>
-        </div>
+          <div class="flex space-x-4 space-x-reverse pt-4">
+            <button type="submit" class="btn-primary px-6 py-3 flex-1">פרסם המלצה</button>
+            <button type="reset" class="btn-outline px-6 py-3">נקה טופס</button>
+          </div>
+        </form>
       </div>
     </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>כל הזכויות שמורות &copy; המלצ-לי 2024</p>
+  <footer class="bg-white border-t border-gray-200 py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
+      <p>כל הזכויות שמורות &copy; המלצלי 2024</p>
     </div>
   </footer>
 
-  <script src="/js/main.js"></script>
-  <script src="/js/add-recommendation.js"></script>
-  
-  <template id="drag-drop-template">
-    <div class="drag-drop-text">
-      גרור ושחרר תמונה כאן<br>
-      <span>או</span><br>
-      לחץ לבחירת קובץ
-    </div>
-  </template>
-
   <script>
-    // Add drag and drop functionality
-    const dropZone = document.querySelector('.image-upload-container');
-    const template = document.getElementById('drag-drop-template');
+    // Show/hide location field based on category
+    const categorySelect = document.getElementById('recommendation-category');
+    const locationGroup = document.querySelector('.location-group');
     
-    dropZone.innerHTML = template.innerHTML;
+    categorySelect.addEventListener('change', function() {
+      const selectedCategory = this.value;
+      if (selectedCategory === 'מסעדות' || selectedCategory === 'אטרקציות') {
+        locationGroup.classList.remove('hidden');
+      } else {
+        locationGroup.classList.add('hidden');
+      }
+    });
 
+    // Handle image preview
+    const imageInput = document.getElementById('recommendation-image');
+    const imagePreview = document.getElementById('image-preview');
+    const dropZone = document.getElementById('dropzone');
+    
+    imageInput.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.innerHTML = `<img src="${e.target.result}" alt="תצוגה מקדימה">`;
+          imagePreview.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        imagePreview.classList.add('hidden');
+        imagePreview.innerHTML = '';
+      }
+    });
+
+    // Add drag and drop functionality
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
       dropZone.addEventListener(eventName, preventDefaults, false);
     });
@@ -135,12 +360,12 @@
       dropZone.addEventListener(eventName, unhighlight, false);
     });
 
-    function highlight(e) {
-      dropZone.classList.add('drag-highlight');
+    function highlight() {
+      dropZone.querySelector('.file-input-label').classList.add('drag-highlight');
     }
 
-    function unhighlight(e) {
-      dropZone.classList.remove('drag-highlight');
+    function unhighlight() {
+      dropZone.querySelector('.file-input-label').classList.remove('drag-highlight');
     }
 
     dropZone.addEventListener('drop', handleDrop, false);
@@ -148,12 +373,89 @@
     function handleDrop(e) {
       const dt = e.dataTransfer;
       const files = dt.files;
-      const fileInput = document.getElementById('recommendation-image');
       
-      fileInput.files = files;
-      // Trigger change event to update preview
-      fileInput.dispatchEvent(new Event('change'));
+      if (files.length) {
+        imageInput.files = files;
+        const event = new Event('change', { bubbles: true });
+        imageInput.dispatchEvent(event);
+      }
     }
+
+    // Form submission
+    const addRecommendationForm = document.getElementById('add-recommendation-form');
+    const alertContainer = document.getElementById('alert-container');
+    
+    addRecommendationForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const title = document.getElementById('recommendation-title').value;
+      const category = document.getElementById('recommendation-category').value;
+      const rating = document.querySelector('input[name="rating"]:checked').value;
+      const description = document.getElementById('recommendation-description').value;
+      const price = document.getElementById('recommendation-price').value;
+      const location = document.getElementById('recommendation-location').value;
+      
+      // Simulate form submission
+      try {
+        // In a real application, you would send this data to your server
+        // For now, we'll just show a success message
+        showAlert('ההמלצה נשלחה בהצלחה!', 'success');
+        
+        // Reset form after success
+        setTimeout(() => {
+          addRecommendationForm.reset();
+          imagePreview.classList.add('hidden');
+          imagePreview.innerHTML = '';
+        }, 2000);
+      } catch (error) {
+        showAlert('אירעה שגיאה בשליחת ההמלצה', 'error');
+      }
+    });
+    
+    // Show alert message
+    function showAlert(message, type = 'success') {
+      const alertClass = type === 'success' 
+        ? 'bg-green-50 text-green-800 border-green-200' 
+        : 'bg-red-50 text-red-800 border-red-200';
+      
+      const alert = `
+        <div class="border ${alertClass} rounded-md p-4 mb-6">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              ${type === 'success' 
+                ? '<i class="bx bx-check-circle text-xl text-green-400"></i>' 
+                : '<i class="bx bx-x-circle text-xl text-red-400"></i>'}
+            </div>
+            <div class="mr-3">
+              <p class="text-sm font-medium">${message}</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      alertContainer.innerHTML = alert;
+      
+      // Remove alert after 5 seconds
+      setTimeout(() => {
+        alertContainer.innerHTML = '';
+      }, 5000);
+    }
+    
+    // Logout button
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+      e.preventDefault();
+      // In a real application, you would handle logout logic here
+      // For now, redirect to home page
+      window.location.href = '/';
+    });
   </script>
 </body>
 </html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDm65TD9QJDY%2BxolUaFlmnR9u7bXcDdrDVjDvyIBeKaJVX5wheOEmjMaBsXVwyXxE6S6%2FOKsL8fISqr0u51z48u4BflbF5%2BAhnla%2FH%2Bt3DTsCyGkw14VgRnDupj439XeR2IknI%2Fvj7rv4RN4M4jhyxHPWMNu3bGzgri4KkLnh5P5%2FOReOJIrXdOJuhOCfPCpkeMcUpHDEIEjTJmdEA4F37vWqdD33%2FGKtSDMTcbL1p8bnPMDVYL44RaFDSxBB6j6jhJYqVDqY%2Bld4P%2FjvwvbdLUBSItM0WL5G%2BeiiQneEPITfYW291BwXlP43Fr%2FdMbb9hxLOm%2FSOS%2FdZG%2B4%2Fn7OdzoY5fO38UpiNY%2F6x8GxwkQyPWTTka0CE2R7kPaPOjoSPWGVF9kGHGDOCHa8AriS6sZM6QrhL2JHfeMk%2F8yNbjQJdQ5T3yebcuG4eMzfVLIB7DH7FqjzEApX8ECTLmPHso6sKkIDgkhefLe8nFcHa4rz825kX1vUlKfBja1QAg7Prxe3UcNDUes7WD16iqmnZh%2BmC5EMBpmSVSYg9dzQ9%2BFyJ3G8cWj9T8jwd90lscfeisg%3D%3D";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDm65TD9QJDY+xolUaFlmnR9u7bXcDdrDVjDvyIBeKaJVX5wheOEmjMaBsXVwyXxE6S6/OKsL8fISqr0u51z48u4BflbF5+Ahnla/H+t3DTsCyGkw14VgRnDupj439XeR2IknI/vj7rv4RN4M4jhyxHPWMNu3bGzgri4KkLnh5P5/OReOJIrXdOJuhOCfPCpkeMcUpHDEIEjTJmdEA4F37vWqdD33/GKtSDMTcbL1p8bnPMDVYL44RaFDSxBB6j6jhJYqVDqY+ld4P/jvwvbdLUBSItM0WL5G+eiiQneEPITfYW291BwXlP43Fr/dMbb9hxLOm/SOS/dZG+4/n7OdzoY5fO38UpiNY/6x8GxwkQyPWTTka0CE2R7kPaPOjoSPWGVF9kGHGDOCHa8AriS6sZM6QrhL2JHfeMk/8yNbjQJdQ5T3yebcuG4eMzfVLIB7DH7FqjzEApX8ECTLmPHso6sKkIDgkhefLe8nFcHa4rz825kX1vUlKfBja1QAg7Prxe3UcNDUes7WD16iqmnZh+mC5EMBpmSVSYg9dzQ9+FyJ3G8cWj9T8jwd90lscfeisg==";
+    </script>
+    

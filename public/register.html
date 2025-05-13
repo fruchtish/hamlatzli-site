@@ -1,16 +1,205 @@
+
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>הרשמה - המלצ-לי</title>
+  <title>הרשמה - המלצלי</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/rubik@5.0.0/index.css">
   <link rel="stylesheet" href="/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/shadcn-ui.css">
+  <style>
+    :root {
+      --primary-color: #4a90e2;
+      --secondary-color: #f3f4f6;
+      --accent-color: #6b46c1;
+      --text-color: #333;
+      --light-text: #666;
+      --border-color: #ddd;
+      --success-color: #34d399;
+      --danger-color: #ef4444;
+      --warning-color: #f59e0b;
+      --font-family: 'Rubik', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      font-family: var(--font-family);
+      direction: rtl;
+      text-align: right;
+      background-color: #f7f9fc;
+      color: var(--text-color);
+    }
+    
+    .auth-container {
+      min-height: calc(100vh - 180px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+    }
+    
+    .auth-card {
+      background-color: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
+      padding: 2.5rem;
+    }
+    
+    .auth-card h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+    
+    .auth-subtitle {
+      color: var(--light-text);
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-color);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+      outline: none;
+    }
+    
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.5;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary-color);
+      border: none;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #3a80d2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(74, 144, 226, 0.2);
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--light-text);
+    }
+    
+    .auth-footer a {
+      color: var(--primary-color);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+    
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 1.5rem;
+    }
+    
+    .nav-menu a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .nav-menu a:hover {
+      color: var(--primary-color);
+    }
+    
+    .password-requirements {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--light-text);
+    }
+    
+    .requirement {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.25rem;
+    }
+    
+    .requirement-icon {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      margin-left: 0.5rem;
+      border: 1px solid currentColor;
+    }
+    
+    .requirement-valid .requirement-icon {
+      background-color: var(--success-color);
+      border-color: var(--success-color);
+    }
+    
+    .form-disclaimer {
+      font-size: 0.85rem;
+      color: var(--light-text);
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="container header-container">
-      <div class="logo">המלצ-לי</div>
+    <div class="container mx-auto px-4 header-container">
+      <div class="logo">המלצלי</div>
       <nav>
         <ul class="nav-menu">
           <li><a href="/">ראשי</a></li>
@@ -22,45 +211,150 @@
   </header>
 
   <main>
-    <div class="container">
+    <div class="container mx-auto px-4">
       <div class="auth-container">
-        <div class="card">
-          <h2>ברוכים הבאים להמלצ-לי!</h2>
-          <p class="auth-subtitle">הצטרפו לקהילת הממליצים שלנו</p>
+        <div class="auth-card">
+          <h1>הצטרפו להמלצלי</h1>
+          <p class="auth-subtitle">שתפו המלצות וגלו המלצות מאנשים אמיתיים</p>
+          
           <div id="alert-container"></div>
           
           <form id="register-form">
             <div class="form-group">
-              <label for="register-username">שם משתמש</label>
+              <label for="register-username" class="form-label">שם משתמש</label>
               <input type="text" id="register-username" class="form-control" placeholder="בחרו שם משתמש" required>
             </div>
+            
             <div class="form-group">
-              <label for="register-email">כתובת דואר אלקטרוני</label>
+              <label for="register-email" class="form-label">כתובת דואר אלקטרוני</label>
               <input type="email" id="register-email" class="form-control" placeholder="הזינו את כתובת המייל שלכם" required>
             </div>
+            
             <div class="form-group">
-              <label for="register-password">סיסמה</label>
+              <label for="register-password" class="form-label">סיסמה</label>
               <input type="password" id="register-password" class="form-control" placeholder="בחרו סיסמה חזקה" required>
+              
+              <div class="password-requirements">
+                <p>הסיסמה חייבת לכלול:</p>
+                <div class="requirement">
+                  <span class="requirement-icon"></span>
+                  לפחות 8 תווים
+                </div>
+                <div class="requirement">
+                  <span class="requirement-icon"></span>
+                  אותיות גדולות וקטנות
+                </div>
+                <div class="requirement">
+                  <span class="requirement-icon"></span>
+                  לפחות מספר אחד
+                </div>
+                <div class="requirement">
+                  <span class="requirement-icon"></span>
+                  לפחות תו מיוחד אחד (!@#$%^&*)
+                </div>
+              </div>
             </div>
+            
             <div class="form-group">
-              <label for="register-password-confirm">אימות סיסמה</label>
+              <label for="register-password-confirm" class="form-label">אימות סיסמה</label>
               <input type="password" id="register-password-confirm" class="form-control" placeholder="הזינו שוב את הסיסמה" required>
             </div>
-            <button type="submit" class="btn btn-primary btn-block">הצטרפות למערכת</button>
+            
+            <div class="form-disclaimer">
+              בלחיצה על "הרשמה" אתם מסכימים ל<a href="#">תנאי השימוש</a> ול<a href="#">מדיניות הפרטיות</a> שלנו. אנו נשלח לכם עדכונים והמלצות על בסיס פעילותכם באתר.
+            </div>
+            
+            <button type="submit" class="btn btn-primary">הרשמה</button>
           </form>
           
-          <p class="auth-footer">כבר יש לכם חשבון? <a href="/login.html">התחברו עכשיו</a></p>
+          <div class="auth-footer">
+            כבר יש לכם חשבון? <a href="/login.html">התחברו עכשיו</a>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>כל הזכויות שמורות &copy; המלצ-לי 2024</p>
+  <footer class="bg-white border-t border-gray-200 py-6">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-600">כל הזכויות שמורות &copy; המלצלי 2024</p>
     </div>
   </footer>
 
   <script src="/js/main.js"></script>
+  <script src="/js/shadcn-ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('register-form');
+      const passwordInput = document.getElementById('register-password');
+      const passwordConfirmInput = document.getElementById('register-password-confirm');
+      const requirements = document.querySelectorAll('.requirement');
+      
+      // Simple password validation
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        const checks = [
+          password.length >= 8,
+          /[A-Z]/.test(password) && /[a-z]/.test(password),
+          /[0-9]/.test(password),
+          /[!@#$%^&*]/.test(password)
+        ];
+        
+        checks.forEach((check, index) => {
+          if (check) {
+            requirements[index].classList.add('requirement-valid');
+          } else {
+            requirements[index].classList.remove('requirement-valid');
+          }
+        });
+      });
+      
+      // Form submission
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const username = document.getElementById('register-username').value;
+        const email = document.getElementById('register-email').value;
+        const password = passwordInput.value;
+        const passwordConfirm = passwordConfirmInput.value;
+        
+        if (password !== passwordConfirm) {
+          showAlert('הסיסמאות אינן תואמות', 'error');
+          return;
+        }
+        
+        // This would normally call an API endpoint
+        // For now, just show success and redirect
+        showAlert('הרשמה בוצעה בהצלחה! מעבירים אותך לעמוד ההתחברות...', 'success');
+        
+        setTimeout(() => {
+          window.location.href = '/login.html';
+        }, 2000);
+      });
+      
+      function showAlert(message, type) {
+        const alertContainer = document.getElementById('alert-container');
+        const alertClass = type === 'error' ? 'bg-red-100 border-red-400 text-red-700' : 'bg-green-100 border-green-400 text-green-700';
+        
+        alertContainer.innerHTML = `
+          <div class="px-4 py-3 mb-4 ${alertClass} border rounded">
+            ${message}
+          </div>
+        `;
+        
+        // Auto-dismiss alert after 5 seconds
+        setTimeout(() => {
+          alertContainer.innerHTML = '';
+        }, 5000);
+      }
+    });
+  </script>
 </body>
 </html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDgj3KRfePahPxpJEMWpYIVCOzWpueqi3GVZu2S8o3v3gCFBZH9GYF421ZxG%2FoOXeSaI0LHoek43aM6QEQNoYkMe1MSXicblG%2FeCNr7e4O6OaSXAwq8DTFG5Qh%2FBI6O1EreY1xT3%2FdqEVBh9bk9QkMtGR7hh9NywQIgB8%2BQOf7nrP8qRQY4K2yUDbj7f0GPvnLwTIbslrVuL1NeHbQhsPbB7dkv%2BbRIc7qPxtxYBhtHrda%2F%2Fgvw38co8N3l2JZLJKw7N5sgvgZ0hulq5Dew0djVQMyV2M6JHZGTx3GtXI%2B0IEL6%2BKvRybrAxXxDi1P4YZTkBijm2OcalBah1OeeDx7i4WphfpTqlCY%2F3KZyWCED%2FWE1phxbElGphzjM2cpmw5fzRv0AFtnVrpYeVhTUtc5gISbS%2F4ZUo%2FZYwaIokjjtpAujHGw0ULfIaRAhQWMeDlDfBK8Mv2RNxnbpo9Ahbi26OqXQ6ubS1ZEcSXuRM46OPEN4GA%2Ba41PmSIILvqsWQOdi4dAiPb8c0zDIGYIk7ZzIOTGYeBdAN%2BOaQmn7OwPMTR";
+        window.__genspark_locale = "en-US";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDgj3KRfePahPxpJEMWpYIVCOzWpueqi3GVZu2S8o3v3gCFBZH9GYF421ZxG/oOXeSaI0LHoek43aM6QEQNoYkMe1MSXicblG/eCNr7e4O6OaSXAwq8DTFG5Qh/BI6O1EreY1xT3/dqEVBh9bk9QkMtGR7hh9NywQIgB8+QOf7nrP8qRQY4K2yUDbj7f0GPvnLwTIbslrVuL1NeHbQhsPbB7dkv+bRIc7qPxtxYBhtHrda//gvw38co8N3l2JZLJKw7N5sgvgZ0hulq5Dew0djVQMyV2M6JHZGTx3GtXI+0IEL6+KvRybrAxXxDi1P4YZTkBijm2OcalBah1OeeDx7i4WphfpTqlCY/3KZyWCED/WE1phxbElGphzjM2cpmw5fzRv0AFtnVrpYeVhTUtc5gISbS/4ZUo/ZYwaIokjjtpAujHGw0ULfIaRAhQWMeDlDfBK8Mv2RNxnbpo9Ahbi26OqXQ6ubS1ZEcSXuRM46OPEN4GA+a41PmSIILvqsWQOdi4dAiPb8c0zDIGYIk7ZzIOTGYeBdAN+OaQmn7OwPMTR";
+    </script>
+    

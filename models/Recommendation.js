@@ -10,8 +10,13 @@ const RecommendationSchema = new mongoose.Schema({
     required: true
   },
   category: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
     required: true
+  },
+  imageUrl: {
+    type: String,
+    required: false
   },
   rating: {
     type: Number,

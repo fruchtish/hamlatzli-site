@@ -24,10 +24,12 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Import routes
 const recommendationRoutes = require('./routes/recommendations');
 const authRoutes = require('./routes/auth');
+const categoryRoutes = require('./routes/categories');
 
 // Use routes
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/categories', categoryRoutes);
 
 // Serve static files for frontend
 app.get('/', (req, res) => {

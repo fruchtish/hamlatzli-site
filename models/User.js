@@ -20,6 +20,15 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  profileImageUrl: {
+    type: String,
+    required: false
+  },
+  bio: {
+    type: String,
+    maxlength: 500,
+    required: false
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>המלצות סרטים - המלצלי</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        .movie-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        .movie-card h3 {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+        .cta {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 30px;
+            transition: transform 0.3s ease;
+        }
+        .cta:hover {
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 המלצות סרטים</h1>
+        <p class="subtitle">גלה את הסרטים הטובים ביותר לפי המלצות האנשים</p>
+        
+        <div class="movie-grid">
+            <div class="movie-card">
+                <h3>🏆 דרמות מומלצות</h3>
+                <p>סרטי דרמה עמוקים ומרגשים שיגעו בלב</p>
+            </div>
+            <div class="movie-card">
+                <h3>😂 קומדיות מעולות</h3>
+                <p>סרטים מצחיקים שיעשו לך ערב מושלם</p>
+            </div>
+            <div class="movie-card">
+                <h3>🚀 אקשן מהיר</h3>
+                <p>סרטי פעולה מסעירים עם קצב עולה</p>
+            </div>
+            <div class="movie-card">
+                <h3>🧠 מותחנים חכמים</h3>
+                <p>סרטים שיגרמו לך לחשוב ולנחש</p>
+            </div>
+        </div>
+        
+        <a href="/index.html" class="cta">גלה המלצות סרטים חדשות</a>
+    </div>
+</body>
+</html>
